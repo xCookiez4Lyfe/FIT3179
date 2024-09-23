@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1000,
+  "height": 650,
+  "title": "Koalas in Queensland in the year 2022",
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/Week%209%20Homework/map_projection.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_graticules_10"}
+      },
+      "mark": {"type": "geoshape", "fill":"none", "stroke": "green"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/Week%209%20Homework/map_projection.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_land"}
+      },
+      "mark": {"type": "geoshape", "fill":"none", "stroke": "black"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/Week%209%20Homework/data/wildnetkoalalocations2022.csv"
+      },
+      "mark": {"type": "circle", "tooltip": {"content": "data"}},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "color": {
+        "field": "ProjectName",
+        "type": "nominal",
+        "title": "Project Names"
+        
+        }
+      }
+      
+
+    }
+  ]
+}
