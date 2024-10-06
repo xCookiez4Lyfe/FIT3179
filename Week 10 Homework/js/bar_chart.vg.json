@@ -1,0 +1,15 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 1000,
+    "height": 400,
+    "title": "Koalas statistics in Queensland from 2018 to 2022",
+    "data": { "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"},
+    "mark": "bar",
+    "encoding": {
+      "x": {"field": "Year"},
+      "y": {"aggregate": "count", "field": "Dead",
+        "title": "Frequency"},
+      "xOffset": {"field": "Dead"},
+      "color": {"field": "Dead"}
+    }
+  }

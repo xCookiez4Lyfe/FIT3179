@@ -1,0 +1,25 @@
+body{
+	background-color: #ffffff;
+	font-family: Arial, sans-serif;
+}
+
+#map {
+	top:50px;
+	bottom: 100px; 
+	left: 50px;
+	right: 100px;
+}
+
+#title h1 {
+	font-family: Arial, sans-serif;
+	color: rgb(0, 112, 163);
+}
+
+#desc {
+	margin-top:100px;
+}
+
+#barchart {
+	margin-top: 20px;
+	width: 100%;
+}

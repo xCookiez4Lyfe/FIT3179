@@ -1,0 +1,179 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+  },
+  "params": [
+    {
+      "name": "center_to",
+      "value": [149.5, -25]
+    },
+    {
+      "name": "LGA_selection",
+      "value": "null",
+      "bind": {
+        "input": "select",
+        "options": [
+          "null",
+          "Brisbane City ",
+          "Fraser Coast Regional ",
+          "Gold Coast City ",
+          "Gympie Regional ",
+          "Ipswich City ",
+          "Lockyer Valley Regional ",
+          "Logan City ",
+          "Moreton Bay Regional ",
+          "Noosa Shire ",
+          "Redland City ",
+          "Scenic Rim Regional ",
+          "Somerset Regional ",
+          "South Burnett Regional ",
+          "Southern Downs Regional ",
+          "Sunshine Coast Regional ",
+          "Toowoomba Regional ",
+          "Western Downs Regional "
+        ],
+        "labels": ["All LGAs"],
+        "name": "LGA: "
+      }
+    }
+  ],
+  "vconcat": [
+    {
+    "width": 850,
+    "height": 500,
+    "title": "Koalas statistics in Queensland from 2018 to 2022",
+    "projection": {
+      "type": "equirectangular",
+      "center": {"expr": "center_to"},
+      "scale": 7500
+    },
+    "layer": [
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+          "format": {"type": "topojson", "feature": "lgas"}
+        },
+        "mark": {"type": "geoshape", "fill":"#ffffff", "stroke": "lightgrey"},
+        "encoding": {
+          "tooltip": [
+            {"field": "properties.adminarean", "type": "nominal", "title": "LGA:"}
+          ]
+        }      
+      },
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+          "format": {"type": "topojson", "feature": "ocean"}
+        },
+        "mark": {"type": "geoshape", "fill": "#24aad6", "stroke": "darkgrey", "strokeWidth": 0.5}
+      },
+      {
+        "transform": [
+        {"filter": {"param": "time_brush"}},
+        {
+            "window": [{"op": "rank", "as" : "rank"}]
+            
+        },
+        {
+            "filter": "LGA_selection=='null'?datum.rank <= 5000:datum.LGA == LGA_selection"
+        },
+        {"calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]", "as": "Status"}
+        ],
+        "encoding": {
+          "longitude": {"field": "LNG", "type": "quantitative"},
+          "latitude": {"field": "LAT", "type": "quantitative"},
+          "color": {
+              "field": "Status", 
+              "type": "nominal",
+              "scale": {"range": ["#047a71", "#858585"]}
+          },
+          "opacity": {
+                "condition": {"param": "koala_status", "value": 1},
+                "value": 0
+          },
+        "tooltip": [
+          {"field": "Koala Name", "type": "nominal", "title": "Name:"},
+          {"field": "Adult Size", "type": "nominal", "title": "Size:"},
+          {"field": "LAT", "type": "quantitative", "title": "Latitude:"},
+          {"field": "LNG", "type": "quantitative", "title": "Longitude:"},
+          {"field": "Status", "type": "nominal", "title": "Status"},
+          {"field": "yearmonth_Call Date Time_end", "type": "ordinal", "title": "Sighting date:"}
+          ]
+        },
+        
+        "layer": [
+          {"mark": {"type": "circle", "size": 5},
+            "params": [{
+              "name": "koala_status",
+              "select": {"type": "point", "fields": ["Status"]},
+              "bind": "legend"
+            }]
+          },
+          {
+             
+            "transform": [
+              {
+                "window": [{"op": "rank", "as" : "first_sighting"}]
+              },
+              {"filter": "datum.first_sighting == 1"},
+              {
+                "calculate": "'The first koala sighting of; the selected period: ' + datum['Koala Name']",
+                "as": "text_annotation_raw"
+              },
+              {
+                "calculate": "split(datum.text_annotation_raw, ';')",
+                "as": "text_annotation"
+              }
+            ],
+            "mark": {
+              "type": "text",
+              "align": "right",
+              "dx": -20,
+              "dy": -10,
+              "baseline": "middle",
+              "fontStyle": "bold"
+            },
+            "encoding": {
+              "text": {"field": "text_annotation"},
+              "color":{
+                "value": "black"
+              },
+              "opacity": {
+                "condition": {"param": "koala_status", "value": 1},
+                "value": 1
+              }
+            
+            }
+          }
+        ]
+      }
+    ]
+    },
+    {
+      "width": 800,
+      "height": 60,
+      "mark": "line",
+      "title": "Use this line chart to filter out the data based on time",
+      "params": [
+        {
+          "name": "time_brush",
+          "select": {"type": "interval", "encodings": ["x"]}
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "Call Date Time",
+          "timeUnit": "yearmonth",
+          "axis": {"title": "", "format": "%b %Y"}
+        },
+        "y": {
+          "aggregate": "count",
+          "axis": {"tickCount": 3, "grid": false},
+          "title": "Count"
+        }
+      }
+    }
+
+  ]
+}
