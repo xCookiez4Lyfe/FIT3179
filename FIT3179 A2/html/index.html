@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koalas in Queensland</title>
+
+    <!-- Import Vega & Vega-Lite -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+    <div id="title">
+        <h1>Queensland’s Koala Story: Trends, Habitats, and Conservation</h1>
+    </div>
+
+    <div id="intro">
+        <div id="intro-content">
+            <div id="intro-text">
+                <h2>Introduction</h2>
+                <p>
+                    Queensland is home to the largest population of koalas in Australia. However, the koala population in Queensland has been declining due to a multitude of factors.
+                    This data visualisation explores the current state of koalas in Queensland, the threats they face, and the conservation efforts being made to protect them.
+                </p>
+            </div>
+            <div id="graphic-1"><img src="img/koala.png"></div>
+        </div>
+    </div>
+
+    <div id="section-1">
+        <div id="section-1-content">
+            <div id="section-1-title">
+                <h2>Koala sightings across Queensland between 2018 and 2022</h2>
+            </div>
+            <div id="section-1-idiom">
+                <div id="filters" class="filter-container"></div>
+                <div id="map"></div>
+                <div id="map-desc"> 
+                    <p>
+                        The map above shows the number of koala sightings across Queensland between 2018 and 2022. 
+                        The each circle represents the a koala sighting in a particular location. Sightings are recorded in each LGA and pinpointed using coordinates on the map.
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+
+
+
+
+
+    <script type="text/javascript">
+
+        var spec1 = "js/map.json";
+        vegaEmbed('#map', spec1).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+      
+      </script>
+
+    </body>
+</html>

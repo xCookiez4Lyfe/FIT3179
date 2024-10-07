@@ -1,0 +1,201 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+    },
+    "params": [
+      {
+        "name": "zoom_level",
+        "value": 7500,
+        "bind": {
+          "input": "range",
+          "min": 7500,
+          "max": 50000,
+          "step": 100,
+          "name": "Zoom: "
+        }
+      },
+      {
+        "name": "center_to",
+        "value": [149.5, -25],
+        "bind": {
+          "input": "select",
+          "options": [
+            [149.5, -25],
+            [152.9, -27.5],
+            [152.5, -25.5],
+            [153.3, -28],
+            [152.5, -26.3],
+            [152.6, -27.6],
+            [152.2, -27.5],
+            [153.0, -27.7],
+            [152.9, -27.1],
+            [152.9, -26.3],
+            [153.3, -27.5],
+            [152.7, -28],
+            [152.4, -27.1],
+            [151.6, -26.3],
+            [151.8, -28.4],
+            [152.9, -26.6],
+            [151.5, -27.5],
+            [150.1, -27]
+          ],
+          "labels": ["Recenter", "Brisbane", "Fraser Coast", "Gold Coast", "Gympie", "Ipswich", "Lockyer Valley", "Logan", "Moreton Bay", "Noosa", "Redland", "Scenic Rim", "Somerset", "South Burnett", "Southern Downs", "Sunshine Coast", "Toowoomba", "Western Downs"],
+          "name": "Map Centre: "
+        }
+      },
+      {
+        "name": "LGA_selection",
+        "value": "null",
+        "bind": {
+          "input": "select",
+          "options": [
+            "null",
+            "Brisbane City ",
+            "Fraser Coast Regional ",
+            "Gold Coast City ",
+            "Gympie Regional ",
+            "Ipswich City ",
+            "Lockyer Valley Regional ",
+            "Logan City ",
+            "Moreton Bay Regional ",
+            "Noosa Shire ",
+            "Redland City ",
+            "Scenic Rim Regional ",
+            "Somerset Regional ",
+            "South Burnett Regional ",
+            "Southern Downs Regional ",
+            "Sunshine Coast Regional ",
+            "Toowoomba Regional ",
+            "Western Downs Regional "
+          ],
+          "labels": ["All LGAs"],
+          "name": "LGA: "
+        }
+      }
+    ],
+    "vconcat": [
+      {
+      "width": 850,
+      "height": 500,
+      "title": "Koalas statistics in Queensland from 2018 to 2022",
+      "projection": {
+        "type": "equirectangular",
+        "center": {"expr": "center_to"},
+        "scale": {"expr": "zoom_level"}
+      },
+      "layer": [
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "lgas"}
+          },
+          "mark": {"type": "geoshape", "fill":"#ffffff", "stroke": "lightgrey"},
+          "encoding": {
+            "tooltip": [
+              {"field": "properties.adminarean", "type": "nominal", "title": "LGA:"}
+            ]
+          }      
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "ocean"}
+          },
+          "mark": {"type": "geoshape", "fill": "#24aad6", "stroke": "darkgrey", "strokeWidth": 0.5}
+        },
+        {
+          "transform": [
+          {"filter": {"param": "time_brush"}},
+          {
+              "window": [{"op": "rank", "as" : "rank"}],
+              "sort": [{"field": "Call Date Time", "order": "ascending"}]
+              
+          },
+          {
+              "filter": "LGA_selection=='null'?datum.rank <= 5000:datum.LGA == LGA_selection"
+          },
+          {"calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]", "as": "Status"}
+          ],
+          "encoding": {
+            "longitude": {"field": "LNG", "type": "quantitative"},
+            "latitude": {"field": "LAT", "type": "quantitative"},
+            "color": {
+                "field": "Status", 
+                "type": "nominal",
+                "scale": {"range": ["#047a71", "#858585"]}
+            },
+          "tooltip": [
+            {"field": "Koala Name", "type": "nominal", "title": "Name:"},
+            {"field": "Adult Size", "type": "nominal", "title": "Size:"},
+            {"field": "LAT", "type": "quantitative", "title": "Latitude:"},
+            {"field": "LNG", "type": "quantitative", "title": "Longitude:"},
+            {"field": "Status", "type": "nominal", "title": "Status"},
+            {"field": "yearmonth_Call Date Time_end", "type": "ordinal", "title": "Sighting date:"}
+            ]
+          },
+          "layer": [
+            {"mark": {"type": "circle", "tooltip": {"content": "data"}}},
+            {
+              "transform": [
+                {
+                  "aggregate": [{
+                  "op": "count",
+                  "as": "count"
+                  }],
+                  "groupby": ["yearmonth_Call Date Time_end"]
+                },
+                {
+                    "window": [{"op": "rank", "as": "ranking"}],
+                    "sort": [{"field": "count", "order": "descending"}]
+                },
+                {
+                  "calculate": "'The first koala sighting of; the selected period: ' + datum['Koala Name']",
+                  "as": "text_annotation_raw"
+                },
+                {
+                  "calculate": "split(datum.text_annotation_raw, ';')",
+                  "as": "text_annotation"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "right",
+                "dx": -8,
+                "dy": -8,
+                "baseline": "middle",
+                "fontStyle": "italic"
+              },
+              "encoding": {"text": {"field": "text_annotation"}}
+            }
+          ]
+        }
+      ]
+      },
+      {
+        "width": 800,
+        "height": 60,
+        "mark": "line",
+        "title": "Use this line chart to filter out the data based on time",
+        "params": [
+          {
+            "name": "time_brush",
+            "select": {"type": "interval", "encodings": ["x"]}
+          }
+        ],
+        "encoding": {
+          "x": {
+            "field": "Call Date Time",
+            "timeUnit": "yearmonth",
+            "axis": {"title": "", "format": "%b %Y"}
+          },
+          "y": {
+            "aggregate": "count",
+            "axis": {"tickCount": 3, "grid": false},
+            "title": "Count"
+          }
+        }
+      }
+  
+    ]
+  }
