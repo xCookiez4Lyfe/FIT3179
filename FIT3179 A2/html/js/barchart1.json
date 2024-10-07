@@ -1,0 +1,32 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "#f0f0f0",
+    "width": 850,
+    "height": 500,
+    "data": {
+      "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+    },
+    "transform": [
+      {
+        "aggregate": [{
+          "op": "count",
+          "as": "Frequency"
+        }],
+        "groupby": ["Adult Size", "Year"]
+      }
+    ],
+    "mark": {
+      "type": "bar",
+      "size": 25
+    },
+    "encoding": {
+      "x": {
+        "field": "Year",
+        "type": "ordinal",
+        "axis": {"labelAngle": 0}
+      },
+      "y": {"field": "Frequency", "type": "quantitative"},
+      "color": {"field": "Adult Size", "type": "nominal"},
+      "xOffset": {"field": "Adult Size"}
+    }
+  }

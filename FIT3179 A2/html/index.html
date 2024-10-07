@@ -52,7 +52,9 @@
     </div>
     
 
+    <div id="linechart"></div>
 
+    <div id="scatterplot"></div>
 
 
 
@@ -62,8 +64,19 @@
         vegaEmbed('#map', spec1).then(function(result) {
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         }).catch(console.error);
+
+        var spec2 = "js/linechart1.json";
+        vegaEmbed('#linechart', spec2).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        var spec3 = "js/scatterplot1.json";
+        vegaEmbed('#scatterplot', spec3).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
       
-      </script>
+    </script>
 
     </body>
 </html>
