@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#f0f0f0",
+  "title": "Koala fates by year",
+  "width": 800,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "SelectedYear",
+      "value": 2018,
+      "bind": {
+        "input": "select",
+        "options": [2018, 2019, 2020, 2021, 2022],
+        "name": "Select Year: "
+      }
+    },
+    {
+      "name": "koala_status",
+      "select": {"type": "point", "fields": ["Condition"]},
+      "bind": "legend"
+    }
+  ],
+  "transform": [
+    {
+      "fold": [
+        "Sick",
+        "Injured",
+        "Caused By Dog",
+        "Orphaned",
+        "Under Threat",
+        "Conjunctivitis",
+        "Cystitis",
+        "Wasted",
+        "Vehicle Hit"
+      ],
+      "as": ["Condition", "Value"]
+    },
+    {"filter": "datum.Value == 'TRUE'"},
+    {"filter": "datum.Year == SelectedYear"}
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Condition",
+      "type": "nominal",
+      "axis": {"title": "Fate of found koala", "labelAngle": 30},
+      "sort": {"field": "count", "op": "count", "order": "ascending"}
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "axis": {"title": "Number of koalas"},
+      "scale": {"domain": [0, 1000]}
+    },
+    "opacity": {
+      "condition": {"param": "koala_status", "value": 1},
+      "value": 0.1
+    },
+    "color": {
+      "field": "Condition",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Sick",
+          "Injured",
+          "Caused By Dog",
+          "Orphaned",
+          "Under Threat",
+          "Conjunctivitis",
+          "Cystitis",
+          "Wasted",
+          "Vehicle Hit"
+        ],
+        "range": [
+          "#4a7282",
+          "#68929e",
+          "#706e59",
+          "#9ca597",
+          "#c8dbd4",
+          "#d4c8b3",
+          "#c4a979",
+          "#9e988d",
+          "#7f7f7f"
+        ]
+      },
+      "legend": {"title": "Koala fate"}
+    },
+    "tooltip": [{"aggregate": "count", "title": "Number of Koalas"}]
+    
+    
+  }
+}

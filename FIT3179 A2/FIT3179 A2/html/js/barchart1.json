@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#f0f0f0",
+  "width": 600,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv",
+    "format": {"type": "csv"}
+  },
+  "params":[
+    {
+      "name": "koala_size",
+      "select": {"type": "point", "fields": ["Adult Size"]},
+      "bind": "legend"
+    }
+  ],
+  "transform": [
+    {
+      "aggregate": [
+        {"op": "count", "field": "Adult Fate", "as": "koala_count"}
+      ],
+      "groupby": ["Adult Situation", "Adult Size"]
+    }
+  ],
+  "mark": {"type": "bar", "size": 80},
+  "encoding": {
+    "x": {
+      "field": "Adult Situation",
+      "type": "ordinal",
+      "title": "Adult Situation",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "koala_count",
+      "type": "quantitative",
+      "title": "Number of Koalas"
+    },
+    "opacity": {
+      "condition": {"param": "koala_size", "value": 1},
+      "value": 0
+    },
+    "color": {"field": "Adult Size", "type": "nominal", 
+    "scale": {
+                "domain": [
+                  "Adult (More than 4kg)",
+                  "Sub-Adult (2-4kg)",
+                  "Young (up to 2kg)"
+                ],
+                "range": [
+                  "#134757",
+                  "#207a8c",
+                  "#ac7559"
+                ]
+                },
+      "title": "Adult Size"},
+    "tooltip": [
+      {"field": "Adult Size", "title": "Adult Size"},
+      {"field": "koala_count", "title": "Number of Koalas"}
+    ]
+  },
+  "config": {"view": {"stroke": "transparent"}}
+}
