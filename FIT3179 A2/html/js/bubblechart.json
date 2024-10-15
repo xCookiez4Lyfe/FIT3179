@@ -1,0 +1,80 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "#f0f0f0",
+    "width": 800,
+    "height": 500,
+  
+    "data": {
+      "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+    },
+  
+    "params": [
+      {
+        "name": "koala_fate",
+        "select": {"type": "point", "fields": ["Adult Fate Other"]},
+        "bind": "legend"
+      }
+    ],
+  
+    "transform": [
+      {
+        "aggregate": [
+          {
+            "op": "count",
+            "field": "ld",  
+            "as": "koala_count"
+          }
+        ],
+        "groupby": ["Year", "Adult Fate Other"]  
+      },
+      {
+        "aggregate": [
+          {
+            "op": "mean",
+            "field": "koala_count",  
+            "as": "average_koalas"
+          }
+        ],
+        "groupby": ["Year", "Adult Fate Other"]
+      }
+    ],
+    
+  
+    "mark": "circle", 
+  
+    "encoding": {
+      "x": {
+        "field": "Year",
+        "type": "ordinal", 
+        "title": "Year"
+      },
+      "y": {
+        "field": "average_koalas",
+        "type": "quantitative",  
+        "title": "Average Number of Koalas"
+      },
+      "size": {
+        "field": "average_koalas",
+        "type": "quantitative",
+        "title": "Koala Count (Bubble Size)"
+      },
+      "color": {
+        "field": "Adult Fate Other",
+        "type": "nominal",  
+        "title": "Adult Fate Other"
+      },
+      "opacity": {
+          "condition": {"param": "koala_fate", "value": 1},
+          "value": 0.1
+        },
+      "tooltip": [
+        {"field": "Year", "title": "Year"},
+        {"field": "Adult Fate Other", "title": "Adult Fate Other"},
+        {"field": "average_koalas", "title": "Average Koalas Rescued"}
+        
+      ]
+    },
+  
+    "title": "Average Koalas Rescued by Adult Fate Other (Bubble Chart)"
+  }
+  

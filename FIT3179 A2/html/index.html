@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koalas in Queensland</title>
 
+    <!-- Import Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Import Vega & Vega-Lite -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
@@ -15,58 +18,402 @@
 
 </head>
 <body>
-    <div id="title">
-        <h1>Queensland’s Koala Story: Trends, Habitats, and Conservation</h1>
-    </div>
-
-    <div id="intro">
-        <div id="intro-content">
-            <div id="intro-text">
-                <h2>Introduction</h2>
-                <p>
-                    Queensland is home to the largest population of koalas in Australia. However, the koala population in Queensland has been declining due to a multitude of factors.
-                    This data visualisation explores the current state of koalas in Queensland, the threats they face, and the conservation efforts being made to protect them.
-                </p>
-            </div>
-            <div id="graphic-1"><img src="img/koala.png"></div>
+    <div class="container">
+        <div id="title" class="text-center my-4">
+            <h1>Queensland’s Koala Story: Trends, Habitats, and Conservation</h1>
         </div>
-    </div>
 
-    <div id="section-1">
-        <div id="section-1-content">
-            <div id="section-1-title">
-                <h2>Koala sightings across Queensland between 2018 and 2022</h2>
-            </div>
-            <div id="section-1-idiom">
-                <div id="filters" class="filter-container"></div>
-                <div id="map"></div>
-                <div id="map-desc"> 
+        <div id="intro" class="my-4">
+            <div id="intro-content" class="row">
+                <div id="intro-text" class="col-md-8">
+                    <h2>Introduction</h2>
                     <p>
-                        The map above shows the number of koala sightings across Queensland between 2018 and 2022. 
-                        The each circle represents the a koala sighting in a particular location. Sightings are recorded in each LGA and pinpointed using coordinates on the map.
+                        Queensland is home to the largest population of koalas in Australia. However, the koala population in Queensland has been rapidly declining due to a combination of habitat loss, urban development, climate change, and diseases. 
+                        Car accidents and dog attacks also contribute to high mortality rates, especially in areas where urbanization has encroached on koala habitats.
+                        Conservation efforts are underway to protect koalas in Queensland, including habitat restoration, the creation of wildlife corridors, stricter regulations on land clearing,
+                        and medical treatment programs to combat diseases. 
+                        <br>
+                        <br>
+                        Both NGOs and government organisations, are working to preserve Queensland's koala populations
+                        through research, community engagement, and rescue operations. Despite these efforts, the species remains vulnerable, and continued action is essential to ensure 
+                        the survival of koalas in Queensland.
+                        This data visualisation explores the current state of koalas in Queensland, the threats they face, and the conservation efforts being made to protect them.
                     </p>
                 </div>
-            </div>
-            
+                <div id="graphic-1" class="col-md-4 text-center">
+                    <img src="img/koala (1).png" class="img-fluid" alt="Koala">
+                </div>
+
+                <div id="section-1" class="my-4">
+                    <div id="section-1-idiom" class="my-4">
+                    
+                        <h2>Koala population overview</h2>
+                        <div id="map-desc" class="text-center" style="padding: 5px;"> 
+                            <p>
+                                The doughnut chart shows a break down of koalas found each year by their sizes and age. This data gives an estimated
+                                number on how frequently koalas can be spotted in various areas around Queensland.
+                        
+                            </p>
+                        </div>
+                        <br>
+                        <div id="piechart" class="mb-4"></div>
+                    </div>
+                </div>
+                
         </div>
+
+
+        
+        
+
+        <div id="section-1" class="my-4">
+            <div id="section-1-content">
+                <div id="section-1-title" class="text-center">
+                    <h2>Koala sightings across Queensland (2018-2022)</h2>
+                </div>
+                <div id="section-1-idiom" class="my-4">
+                    
+                    <h2>Where are they now: Visualising the distribution of the koala population</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            The map below shows the number of koala sightings between 2018 and 2022 to provide
+                            a visual representation of koala sightings and their status across Queensland. 
+                            The clustered areas with more concentrated dots likely indicate regions with higher koala activity 
+                            or where significant monitoring or studies have been conducted. Sparse dots might show areas with 
+                            fewer koalas or less data collection activity in the area.
+                    
+                        </p>
+                    </div>
+                    <div id="map" class="mb-4"></div>
+                </div>
+
+
+                <div id="section-1-idiom" class="my-4">
+                    
+                    <h2>Comparing koala sighting locations</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            
+                            The stacked bar chart below shows the locations (e.g. in trees, on the ground, in captivity) where koalas in Queensland were sighted or found. 
+                            Each of these locations has distinct characteristics and serves different purposes in the koalas' behavior, lifestyle, and survival.
+                            <br>
+                            <br>
+                            The data is grouped by the sizes of koalas that were found in this areas into three categories: <br>Adult, Sub-adult and Young koalas
+                        </p>
+                    </div>
+
+                    
+                    <div id="barchart2" class="mb-4"></div>
+
+                    <div id="text-desc" class="row" style="align-items: center;">
+                        <div class="col-md-8">
+                            <h4><b>In captivity</b></h4>
+                            <p>
+                                In some cases, koalas are found in captivity in wildlife rescue centers, zoos, or rehabilitation facilities. 
+                                These koalas may be rescued due to injury, disease, habitat destruction, or other threats. 
+                                They are often brought into captivity for treatment and conservation efforts, with the aim of returning them to the wild when they are healthy.
+
+                                Captive koalas are generally housed in wildlife sanctuaries, rehabilitation centers, or zoos in Queensland 
+                                where they receive medical care, food, and shelter.
+
+                                (Wildlife Habitat, 2024)
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/zoo.png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+
+                    <div id="text-desc" class="row" style="align-items: center; ">
+                        <div class="col-md-8">
+                            <h4><b>In trees</b></h4>
+                            <p>
+                                Koalas are arboreal (tree-dwelling) animals, meaning they spend most of their time in trees. 
+                                They are primarily found in eucalyptus forests and woodlands throughout Queensland, where they are
+                                well-adapted to live in the upper canopy.
+                                Trees are a good source of food, shelter and safety for koalas to rest and sleep.
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/eucalyptus.png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+
+                    <div id="text-desc" class="row" style="align-items: center;">
+                        <div class="col-md-8">
+                            <h4><b>On the ground</b></h4>
+                            <p>
+                                Koalas are not generally ground-dwelling animals, but they occasionally come down from trees to move between locations, 
+                                typically to find new trees, mates, or water sources. They are very slow movers on the ground usually prefer to stay in 
+                                trees to avoid predators and other threats.
+
+                                Koalas are vulnerable to cars, predators, and habitat destruction when they are on the ground.
+                                This is why habitat fragmentation (e.g., urban development) is such a threat to koalas.
+                                
+                                (Redland City Council, 2024)
+
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/koala.png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
+        <div id="section-1" class="my-4">
+            <div id="section-1-content">
+                <div id="section-1-title" class="text-center">
+                    <h2>Koala health statistics across Queensland</h2>
+                </div>
+                <div id="section-1-idiom" class="my-4">
+                    <h2>Koala condition insights: Tracking wellness</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            While both maps show koalas in the same general geographic region in Queensland, the spread of sick koalas may be more centralized in areas 
+                            closer to human activity (urban centers or roads). In this case, areas such as Brisbane and Gold Coast with a higher human population also sees higher spreads of sick koalas. 
+                            Healthy koalas could be concentrated in more rural or forested areas, suggesting these locations are less impacted
+                            by human-related risks.
+                            <br>
+                            <br>
+
+                            This data could indicate the need for targeted health interventions. In areas with a higher concentration of sick koalas, 
+                            additional health monitoring or conservation efforts could be needed.
+                        </p>
+                    </div>
+                    <div id="scatterplot" class="mb-4"></div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 mb-4">
+                            <div class="card" style="color: white;">
+                                <div class="card-body" style="background-color: #723b3b;" >
+                                    <h5 class="card-title" style="font-size: 18px;"><b>Sick koalas:</b></h5>
+                                    <p class="card-text" style="font-size: 16px;">
+                                        High population density in certain areas could indicate more frequent encounters with hazards (such as vehicles, dogs, etc.). <br>
+                                        Koalas in these areas may experience more frequent injuries or exposure to illnesses.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card" style="color: white;">
+                                <div class="card-body" style="background-color: #2b6154;">
+                                    <h5 class="card-title" style="font-size: 18px;"><b>Healthy koalas:</b></h5>
+                                    <p class="card-text" style="font-size: 16px;">
+                                        Healthy koalas might be found in more remote areas, with fewer human disturbances, more access to food, and safer habitats. <br>
+                                        Healthier koalas may also indicate that certain environments provide better conditions for survival.
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <h2>Koala fates: Condtions influencing mortality rates</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            This graph illustrates the fates of koalas around Queensland, helping identify areas that need conservation intervention, 
+                            such as disease control, reducing human-wildlife conflict, and preserving koala habitats. It also emphasizes the need for protection 
+                            of these animals from environmental stressors. 
+
+                         </p>
+                    </div>
+                    <div id="barchart" class="mb-4"></div>
+
+                    <h6>*The term koala fates in this chart refers to the condition of koala that was sighted, found or rescued.</h6>
+                    <br>
+
+                    <div id="text-desc" class="row" style="align-items: center;">
+                        <div class="col-md-8">
+                            <h4><b>Health related issues</b></h4>
+                            <p>
+                                Sickness and other health conditions are the some of the more common conditions affecting koalas, indicating that a high percentage of koalas are suffering from various illnesses. 
+                                This could include diseases like chlamydia, cystitis, conjunctivitis, etc.
+                                This suggests a need for urgent medical intervention and conservation efforts to manage these health risks.
+
+                                (Queensland Government, 2024)
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/medical-report.png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+
+                    <div id="text-desc" class="row" style="align-items: center; ">
+                        <div class="col-md-8">
+                            <h4><b>Dog attacks, vehicle collisions and other threats</b></h4>
+                            <p>
+                                This highlight the human impact on koala populations, with many koalas suffering from these, possibly due to the dangers of urban environments and human-wildlife conflict.
+                                Urbanization and road development are posing a significant threat to koala survival, especially as they try to navigate fragmented habitats.
+                                Vehicle hits are a common cause of injury and death for koalas, particularly when they attempt to cross roads in human-inhabited areas.
+
+                                (Australian Koala Foundation, 2020)
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/car (1).png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+
+                    <div id="text-desc" class="row" style="align-items: center;">
+                        <div class="col-md-8">
+                            <h4><b>Wasted and orphaned koalas</b></h4>
+                            <p>
+                                The presence of wasted and orphaned koalas points to a broader problem, which may include poor nutrition or loss of access to adequate habitats and food sources.
+                                Orphaned koalas represent a significant concern, as it indicates the loss of young koalas due to various reasons, including loss of their mothers.
+
+                            </p>
+                        </div>
+                        <div id="graphic-2" class="col-md-4 text-center">
+                            <img src="img/stomachache.png" class="img-fluid" alt="Koala">
+                        </div>
+                    </div>
+
+                    <br>
+                    <h2>Understanding koala survival: Comparing life and loss</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            
+                        The number of dead koalas sightings is relatively lower overall, but shows periodic increases. The decrease of live koala sightings in earlier months of the year could be related to the bushfire incidents which usually occur during summer (Loane, 2022). 
+                        Since the status of koalas was changed from vulnerable to endangered in 2022, the the number of dead koala sightings remained consistently low compared to previous years.
+                        <br>
+                        <br>
+                        Both live and dead sightings show peaks around certain months, suggesting potential external factors affecting koala health or behavior such as habitat changes, natural disasters or improvement in conservation efforts.
+                        </p>
+                    </div>
+
+                    
+                    <div id="linechart1" class="mb-4"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="section-1" class="my-4">
+            <div id="section-1-content">
+                <div id="section-1-title" class="text-center" style="padding-bottom: 20px;">
+                    <h2>Conservation efforts towards the koala population in Queensland</h2>
+                </div>
+                <br>
+                <h2>How effective are the efforts of government bodies and NGOs?</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            Rescue, rehabilitation, and release are essential to koala conservation efforts in Queensland. 
+                            Koalas are vulnerable to threats like dog attacks, vehicle accidents, and diseases, and they rely 
+                            on a network of dedicated volunteers who respond to community reports of koalas in need of help.
+                        </p>
+                    </div>
+                <div id="section-1-idiom" class="my-4">
+                    
+                    <div id="map1" class="mb-4" style="margin: 20px;"></div>
+                    <h2>The race to rescue koalas</h2>
+                    <div id="map-desc" class="text-center"> 
+                        <p>
+                            Koala rehabilitation begins with rescuing sick, injured, or orphaned koalas, a task typically 
+                            carried out by trained and licensed volunteers with expertise in handling these animals.
+                            After being rescued, the koalas are taken to a wildlife hospital, clinic, or rehabilitation center. 
+                            There, veterinarians assess their condition, checking for injuries or illness, and determine whether 
+                            the animals can be treated and eventually released back into their natural habitat (Queensland Government, 2023).
+                            
+                        </p>
+                    </div>
+                    
+                    <div id="line-bubble" class="mb-4" style="margin: 20px;"></div>
+
+                    <div id="map-desc" class="text-center" > 
+                        <p>
+                           To visualise the impact of government and non-government organisations on koala conservation in Queensland,
+                    
+                           The line graph shows the number of koalas found or rescued over 5 years, between 2018 and 2022. <br> By visualising the timeline
+                           the number of koalas found by each organisation, we can determine the effectiveness of their strategies. 
+                            <br>
+                            <br>
+                            On the other hand, the bubble chart summarises the information from the line graph, showing the average number of koalas found or rescued in each of
+                            the five years. However,
+                            a factor to consider is the magnitude of the organisation as some of them operate on a smaller scale, leading to an overall lower amount of sightings.
+                           
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="section-1" class="my-4">
+            <div id="section-1-content">
+                <div id="section-1-title" class="text-center" style="padding-bottom: 20px;">
+                    <h2>What's next for Queensland's koala population?</h2>
+                </div>
+
+                <div id="section-1-idiom" class="my-4">
+
+                
+                    <h2>Queensland Koala Conservation Strategy</h2>
+
+                    <div id="map-desc" class="text-center" > 
+                        <p>
+                           As part of South-East Queensland's Koala Conservation Strategy (2020-2025), it focuses
+                           It focuses on habitat protection, reducing threats,
+                            enhancing wildlife corridors, and improving koala health monitoring. 
+                            The strategy also aims to engage communities and stakeholders in conservation efforts, 
+                            emphasizing the need for long-term, coordinated action to secure a future for koalas.
+                        <br>
+                        <br>
+                            The Queensland Government also aims to work with various partners, including local councils, conservation groups, 
+                            and wildlife organizations, to develop an implementation plan for koala conservation. 
+                            This plan will involve activities like citizen science, public awareness campaigns, and contributing data to koala mapping efforts. 
+                            Communities can actively participate in these initiatives to support koala preservation, either individually, or as part of NGO efforts. (Queensland Government, 2020)
+                        </p>
+                    </div>
+
+                    <div id="graphic-1" class="col-md-4 text-center">
+                        <img src="img/zookeeper.png" class="img-fluid" alt="Zookeeper">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        
     </div>
-    
 
-    <div id="linechart"></div>
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <h6>
+                <a href="https://www.example.com" class="text-white">Data Visualisation 2</a> -
+                <a href="https://www.example.com" class="text-white">Thanishwar Janarthan (32839359)</a>
+            </h6>
+            <p>&copy; Queensland's Koala Story 2024</p>
 
-    <div id="scatterplot"></div>
+        </div>
+       <br> 
+        
+        <h6>Datasets used for this visualisation: </h6>
+            <p>
+                <a href="">Koala hospital dataset</a> |
+                <a href="">Natural Earth data</a></p>
+    </footer>
 
+        
 
+    <!-- Import Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-
         var spec1 = "js/map.json";
         vegaEmbed('#map', spec1).then(function(result) {
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         }).catch(console.error);
 
-        var spec2 = "js/linechart1.json";
-        vegaEmbed('#linechart', spec2).then(function(result) {
+        var spec2 = "js/combi-line-bubble.json";
+        vegaEmbed('#line-bubble', spec2).then(function(result) {
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         }).catch(console.error);
 
@@ -75,8 +422,32 @@
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         }).catch(console.error);
 
-      
-    </script>
+        var spec4 = "js/barchart2.json";
+        vegaEmbed('#barchart', spec4).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
 
-    </body>
+        var spec5 = "js/map2.json";
+        vegaEmbed('#map1', spec5).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        var spec6 = "js/barchart1.json";
+        vegaEmbed('#barchart2', spec6).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        var spec7 = "js/linechart1.json";
+        vegaEmbed('#linechart1', spec7).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        var spec8 = "js/doughnut.json";
+        vegaEmbed('#piechart', spec8).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+    </script>
+</body>
+
+
 </html>

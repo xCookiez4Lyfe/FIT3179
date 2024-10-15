@@ -1,34 +1,44 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "background": "#f0f0f0",
-    "width": 850,
-    "height": 500,
-    "data": {"url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"},
-    "transform": [
-      {"calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]", "as": "Status"}
-    ],
-    "mark": {
-      "type": "line",
-      "point": true
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#f0f0f0",
+  "title": "Comparison of live and dead koala sightings between 2018 and 2022",
+  "width": 850,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+  },
+  "transform": [
+    {
+      "calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]",
+      "as": "Status"
+    }
+  ],
+  "mark": {"type": "line", "point": true},
+  "encoding": {
+    "x": {"timeUnit": "yearmonth", "field": "Call Date Time", "title":"Date of sighting"},
+    "y": {"aggregate": "count", "field": "Dead", "type": "quantitative", "title": "Number of koalas"},
+    "color": {"field": "Status", "type": "nominal", "scale": {
+      "range": ["#308a88", "#9e9e9e"]
+    }},
+    "opacity": {
+      "condition": {"param": "koala_status", "value": 1},
+      "value": 0.2
     },
-    "encoding": {
-      "x": {"timeUnit": "yearmonth", "field": "Call Date Time"},
-      "y": {"aggregate":"count", "field": "Dead", "type": "quantitative"},
-      "color": {"field": "Status", "type": "nominal"},
-      "opacity": {
-        "condition": {"param": "koala_status", "value": 1},
-        "value": 0.2
-      },
-      "tooltip": [
-        {"field": "yearmonth_Call Date Time_end", "type": "ordinal", "title": "Sighting date:"},
-        {"field": "__count", "type": "quantitative", "title": "Count:"}
-      ]
-    },
-    "params": [
+    "tooltip": [
       {
-        "name": "koala_status",
-        "select": {"type": "point", "fields": ["Status"]},
-        "bind": "legend"
-      }
+        "field": "yearmonth_Call Date Time_end", 
+        "type": "temporal", 
+        "title": "Sighting date:",
+        "timeUnit": "yearmonthdate"
+      },
+      {"field": "__count", "type": "quantitative", "title": "Count:"}
     ]
-  }
+  },
+  "params": [
+    {
+      "name": "koala_status",
+      "select": {"type": "point", "fields": ["Status"]},
+      "bind": "legend"
+    }
+  ]
+}

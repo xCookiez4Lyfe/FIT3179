@@ -1,6 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "background": "#f0f0f0",
+  "title": "Koala locations",
   "width": 900,
   "height": 500,
   "params": [
@@ -39,7 +40,7 @@
           [152.5, -26.3],
           [152.6, -27.6],
           [152.2, -27.5],
-          [153.0, -27.7],
+          [153, -27.7],
           [152.9, -27.1],
           [152.9, -26.3],
           [153.3, -27.5],
@@ -51,7 +52,26 @@
           [151.5, -27.5],
           [150.1, -27]
         ],
-        "labels": ["Recenter", "Brisbane", "Fraser Coast", "Gold Coast", "Gympie", "Ipswich", "Lockyer Valley", "Logan", "Moreton Bay", "Noosa", "Redland", "Scenic Rim", "Somerset", "South Burnett", "Southern Downs", "Sunshine Coast", "Toowoomba", "Western Downs"],
+        "labels": [
+          "Recenter",
+          "Brisbane",
+          "Fraser Coast",
+          "Gold Coast",
+          "Gympie",
+          "Ipswich",
+          "Lockyer Valley",
+          "Logan",
+          "Moreton Bay",
+          "Noosa",
+          "Redland",
+          "Scenic Rim",
+          "Somerset",
+          "South Burnett",
+          "Southern Downs",
+          "Sunshine Coast",
+          "Toowoomba",
+          "Western Downs"
+        ],
         "name": "Map Centre: "
       }
     },
@@ -81,7 +101,7 @@
           "Western Downs Regional "
         ],
         "labels": ["All LGAs"],
-        "name": "LGA: "
+        "name": "Local Government Area: "
       }
     }
   ],
@@ -96,19 +116,24 @@
         "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
         "format": {"type": "topojson", "feature": "lgas"}
       },
-      "mark": {"type": "geoshape", "fill":"#ffffff", "stroke": "lightgrey"},
+      "mark": {"type": "geoshape", "fill": "#ffffff", "stroke": "lightgrey"},
       "encoding": {
         "tooltip": [
-          {"field": "properties.adminarean", "type": "nominal", "title": "LGA:"}
+          {"field": "properties.adminarean", "type": "nominal", "title": "Local Government Area"}
         ]
-      }      
+      }
     },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
         "format": {"type": "topojson", "feature": "ocean"}
       },
-      "mark": {"type": "geoshape", "fill": "#24aad6", "stroke": "darkgrey", "strokeWidth": 0.5}
+      "mark": {
+        "type": "geoshape",
+        "fill": "#24aad6",
+        "stroke": "darkgrey",
+        "strokeWidth": 0.5
+      }
     },
     {
       "data": {
@@ -116,44 +141,26 @@
       },
       "transform": [
         {"filter": "datum.Year == Year_selection"},
+        {"window": [{"op": "rank", "as": "rank"}]},
         {
-            "window": [{"op": "rank", "as" : "rank"}]
-        },
-        {
-            "filter": "LGA_selection=='null'?datum.rank <= 5000:datum.LGA == LGA_selection"
-        },
-        {"calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]", "as": "Status"}
+          "filter": "LGA_selection=='null'?datum.rank <= 5000:datum.LGA == LGA_selection"
+        }
       ],
-      
-      "params": [{
-        "name": "koala_status",
-        "select": {"type": "point", "fields": ["Status"]},
-        "bind": "legend"
-      }],
       "mark": {"type": "circle", "size": 15},
       "encoding": {
         "longitude": {"field": "LNG", "type": "quantitative"},
         "latitude": {"field": "LAT", "type": "quantitative"},
         "color": {
-            "field": "Status", 
-            "type": "nominal",
-            "scale": {"range": ["#047a71", "#858585"]}
+          "value":"#89a2aa"
         },
-        "opacity": {
-          "condition": {"param": "koala_status", "value": 1},
-          "value": 0
-        },
+
         "tooltip": [
-          {"field": "Koala Name", "type": "nominal", "title": "Name:"},
-          {"field": "Adult Size", "type": "nominal", "title": "Size:"},
-          {"field": "LAT", "type": "quantitative", "title": "Latitude:"},
-          {"field": "LNG", "type": "quantitative", "title": "Longitude:"},
-          {"field": "Status", "type": "nominal", "title": "Status"}
+          {"field": "Koala Name", "type": "nominal", "title": "Name"},
+          {"field": "Adult Size", "type": "nominal", "title": "Size"},
+          {"field": "LAT", "type": "quantitative", "title": "Latitude"},
+          {"field": "LNG", "type": "quantitative", "title": "Longitude"}
         ]
       }
-      
     }
-    
-      
   ]
 }

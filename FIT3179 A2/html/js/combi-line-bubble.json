@@ -1,0 +1,177 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "#f0f0f0",
+    "spacing": 50,
+    "params": [
+      {
+        "name": "selected_fate",
+        "value": null,
+        "bind": {
+          "input": "select",
+          "options": [
+            null,
+            "AWH",
+            "CWS",
+            "EVE",
+            "HVWC",
+            "IKPS",
+            "MKRC",
+            "RSPCA",
+            "Unknown"
+          ],
+          "labels": [
+            "All",
+            "AWH",
+            "CWS",
+            "EVE",
+            "HVWC",
+            "IKPS",
+            "MKRC",
+            "RSPCA",
+            "Unknown"
+          ],
+          "name": "Select organisation: "
+        }
+      }
+    ],
+    "vconcat": [
+      {
+        "width": 850,
+        "height": 500,
+        "title": "Koalas sightings by wildlife organisations from 2018 to 2022",
+        "data": {
+          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+        },
+        "params": [
+          {
+            "name": "year_slider",
+            "select": {"type": "interval", "encodings": ["x"]},
+            "bind": "scales"
+          }
+        ],
+        "transform": [
+          {
+            "filter": "selected_fate == null || datum['Adult Fate Other'] == selected_fate"
+          }
+        ],
+        "mark": {"type": "line", "point": true},
+        "encoding": {
+          "x": {
+            "timeUnit": "yearmonth",
+            "field": "Call Date Time",
+            "title": "Sighting date"
+          },
+          "y": {
+            "aggregate": "count",
+            "field": "Adult Fate Other",
+            "type": "quantitative",
+            "title": "Number of Koalas",
+            "scale": {"domain": [0, 150]}
+          },
+          "color": {
+            "field": "Adult Fate Other",
+            "type": "nominal",
+            "title": "Organisation",
+            "legend": {"title": "Organisation"}
+          },
+          "tooltip": [
+            {
+              "field": "yearmonth_Call Date Time_end",
+              "type": "ordinal",
+              "title": "Sighting Date"
+            },
+            {
+              "field": "__count",
+              "type": "quantitative",
+              "title": "Number of koalas"
+            },
+            {
+              "field": "Adult Fate Other",
+              "type": "nominal",
+              "title": "Adult Fate"
+            }
+          ]
+        }
+      },
+      {
+        "width": 850,
+        "height": 500,
+        "data": {
+          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+        },
+        "params": [
+          {
+            "name": "koala_fate",
+            "select": {"type": "point", "fields": ["Adult Fate Other"]},
+            "bind": "legend"
+          }
+        ],
+        "transform": [
+          {
+            "aggregate": [{"op": "count", "field": "ld", "as": "koala_count"}],
+            "groupby": ["Year", "Adult Fate Other"]
+          },
+          {
+            "aggregate": [
+              {"op": "mean", "field": "koala_count", "as": "average_koalas"}
+            ],
+            "groupby": ["Year", "Adult Fate Other"]
+          },
+          {
+            "filter": "selected_fate == null || datum['Adult Fate Other'] == selected_fate"
+          }
+        ],
+        "mark": "circle",
+        "encoding": {
+          "x": {"field": "Year", "type": "ordinal", "title": "Year", "axis": {"labelAngle": 0}},
+          "y": {
+            "field": "average_koalas",
+            "type": "quantitative",
+            "title": "Average Number of koalas"
+          },
+          "size": {
+            "field": "average_koalas",
+            "type": "quantitative",
+            "title": "Koala count (Bubble Size)"
+          },
+          "color": {
+            "field": "Adult Fate Other",
+            "type": "nominal",
+            "title": "Organisation",
+            "scale": {
+              "domain": [
+                "RSPCA",
+                "CWS",
+                "AWH",
+                "EVE",
+                "HVWC",
+                "IKPS",
+                "MKRC",
+                "Unknown"
+              ],
+              "range": [
+                "#993f00",
+                "#c67e30",
+                "#f1bd58",
+                "#f9e098",
+                "#d2de8e",
+                "#9dcbcf",
+                "#41a6ad",
+                "#697c7d"
+              ]
+            }
+          },
+          "opacity": {
+            "condition": {"param": "koala_fate", "value": 1},
+            "value": 0.1
+          },
+          "tooltip": [
+            {"field": "Year", "title": "Year"},
+            {"field": "Adult Fate Other", "title": "Wildlife Organisation"},
+            {"field": "average_koalas", "title": "Average number of koalas found"}
+          ]
+        },
+        "title": "Average number of koalas found or rescued by wildlife organisations"
+      }
+    ]
+  }

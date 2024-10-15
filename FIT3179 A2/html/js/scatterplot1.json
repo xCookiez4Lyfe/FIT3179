@@ -1,70 +1,135 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "background": "#f0f0f0",
-    "hconcat": [
-      {
-        "title": "Koalas that were found sick",
-        
-        "width": 425,
-        "height": 500,
-        "data": {
-          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
-        },
-        "transform": [
-          {"filter": "datum.Sick == 'TRUE'"}
-        ],
-        "mark": "point",
-        "encoding": {
-          "x": {
-            "field": "LNG",
-            "type": "quantitative",
-            "scale": {"zero": false}
-          },
-          "y": {
-            "field": "LAT",
-            "type": "quantitative",
-            "scale": {"zero": false}
-          },
-          "color": {"value": "red"},
-          "tooltip": [
-            {"field": "Sick", "title": "Sick Status"},
-            {"field": "LAT", "type": "quantitative"},
-            {"field": "LNG", "type": "quantitative"}
-          ]
-        }
-      },
-      {
-        "title": "Koalas that were found healthy",
-  
-        "width": 425,
-        "height": 500,
-        "data": {
-          "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
-        },
-        "transform": [
-          {"filter": "datum.Sick == 'FALSE'"}
-        ],
-        "mark": "point",
-        "encoding": {
-          "x": {
-            "field": "LNG",
-            "type": "quantitative",
-            "scale": {"zero": false}
-          },
-          "y": {
-            "field": "LAT",
-            "type": "quantitative",
-            "scale": {"zero": false}
-          },
-          "color": {"value": "green"},
-          "tooltip": [
-            {"field": "Koala Name", "title": "Name"},
-            {"field": "Sick", "title": "Sick Status"},
-            {"field": "LAT", "type": "quantitative"},
-            {"field": "LNG", "type": "quantitative"}
-          ]
-        }
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#f0f0f0",
+  "spacing": 50,
+  "params": [
+    {
+      "name": "year_selection",
+      "value": 2018,
+      "bind": {
+        "input": "select",
+        "options": [2018, 2019, 2020, 2021, 2022],
+        "labels": ["2018", "2019", "2020", "2021", "2022"],
+        "name": "Select Year: "
       }
-    ]
-  }
-  
+    }
+  ],
+  "hconcat": [
+    {
+      "width": 500,
+      "height": 500,
+      "layer": [
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "ocean"}
+          },
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": {"type": "geoshape", "fill": "#24aad6"}
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "lgas"}
+          },
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": {"type": "geoshape", "fill": "white", "stroke": "lightgrey"}
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+          },
+          "transform": [
+            {"filter": "datum.Sick == 'TRUE'"},
+            {"filter": "datum.Year == year_selection"}
+          ],
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": "circle",
+          "encoding": {
+            "longitude": {"field": "LNG", "type": "quantitative"},
+            "latitude": {"field": "LAT", "type": "quantitative"},
+            "size": {"value": 10},
+            "color": {"value": "#723b3b"},
+            "tooltip": [
+              {"field": "Sick", "title": "Sick Status"},
+              {"field": "LGA", "title": "Location"},
+              {"field": "LAT", "type": "quantitative"},
+              {"field": "LNG", "type": "quantitative"}
+            ]
+          }
+        }
+      ],
+      "title": "Sick Koalas"
+    },
+    {
+      "width": 500,
+      "height": 500,
+      "layer": [
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "ocean"}
+          },
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": {"type": "geoshape", "fill": "#24aad6"}
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
+            "format": {"type": "topojson", "feature": "lgas"}
+          },
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": {"type": "geoshape", "fill": "white", "stroke": "lightgrey"}
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+          },
+          "transform": [
+            {"filter": "datum.Sick == 'FALSE'"},
+            {"filter": "datum.Year == year_selection"}
+          ],
+          "projection": {
+            "type": "equirectangular",
+            "center": [150.5, -27],
+            "scale": 8000
+          },
+          "mark": "circle",
+          "encoding": {
+            "longitude": {"field": "LNG", "type": "quantitative"},
+            "latitude": {"field": "LAT", "type": "quantitative"},
+            "size": {"value": 10},
+            "color": {"value": "#2b6154"},
+            "tooltip": [
+              {"field": "Sick", "title": "Sick status"},
+              {"field": "LAT", "type": "quantitative"},
+              {"field": "LGA", "title": "Location"},
+              {"field": "LNG", "type": "quantitative"}
+            ]
+          }
+        }
+      ],
+      "title": "Healthy Koalas"
+    }
+  ]
+}

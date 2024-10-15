@@ -1,88 +1,50 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "data": {
-      "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
-    },
-    "params": [
-      {
-        "name": "zoom_level",
-        "value": 7500,
-        "bind": {
-          "input": "range",
-          "min": 7500,
-          "max": 50000,
-          "step": 100,
-          "name": "Zoom: "
-        }
-      },
-      {
-        "name": "center_to",
-        "value": [149.5, -25],
-        "bind": {
-          "input": "select",
-          "options": [
-            [149.5, -25],
-            [152.9, -27.5],
-            [152.5, -25.5],
-            [153.3, -28],
-            [152.5, -26.3],
-            [152.6, -27.6],
-            [152.2, -27.5],
-            [153.0, -27.7],
-            [152.9, -27.1],
-            [152.9, -26.3],
-            [153.3, -27.5],
-            [152.7, -28],
-            [152.4, -27.1],
-            [151.6, -26.3],
-            [151.8, -28.4],
-            [152.9, -26.6],
-            [151.5, -27.5],
-            [150.1, -27]
-          ],
-          "labels": ["Recenter", "Brisbane", "Fraser Coast", "Gold Coast", "Gympie", "Ipswich", "Lockyer Valley", "Logan", "Moreton Bay", "Noosa", "Redland", "Scenic Rim", "Somerset", "South Burnett", "Southern Downs", "Sunshine Coast", "Toowoomba", "Western Downs"],
-          "name": "Map Centre: "
-        }
-      },
-      {
-        "name": "LGA_selection",
-        "value": "null",
-        "bind": {
-          "input": "select",
-          "options": [
-            "null",
-            "Brisbane City ",
-            "Fraser Coast Regional ",
-            "Gold Coast City ",
-            "Gympie Regional ",
-            "Ipswich City ",
-            "Lockyer Valley Regional ",
-            "Logan City ",
-            "Moreton Bay Regional ",
-            "Noosa Shire ",
-            "Redland City ",
-            "Scenic Rim Regional ",
-            "Somerset Regional ",
-            "South Burnett Regional ",
-            "Southern Downs Regional ",
-            "Sunshine Coast Regional ",
-            "Toowoomba Regional ",
-            "Western Downs Regional "
-          ],
-          "labels": ["All LGAs"],
-          "name": "LGA: "
-        }
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#f0f0f0",
+  "data": {
+    "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/koala%20data%20(clean)/koala-hospital-data-2018-2022.csv"
+  },
+  "params": [
+    {"name": "center_to", "value": [151.8, -25.1]},
+    {
+      "name": "LGA_selection",
+      "value": "null",
+      "bind": {
+        "input": "select",
+        "options": [
+          "null",
+          "Brisbane City ",
+          "Fraser Coast Regional ",
+          "Gold Coast City ",
+          "Gympie Regional ",
+          "Ipswich City ",
+          "Lockyer Valley Regional ",
+          "Logan City ",
+          "Moreton Bay Regional ",
+          "Noosa Shire ",
+          "Redland City ",
+          "Scenic Rim Regional ",
+          "Somerset Regional ",
+          "South Burnett Regional ",
+          "Southern Downs Regional ",
+          "Sunshine Coast Regional ",
+          "Toowoomba Regional ",
+          "Western Downs Regional "
+        ],
+        "labels": ["All LGAs"],
+        "name": "Local Government Area: "
       }
-    ],
-    "vconcat": [
-      {
+    }
+  ],
+  "vconcat": [
+    {
       "width": 850,
       "height": 500,
-      "title": "Koalas statistics in Queensland from 2018 to 2022",
+      "title" :"Koalas sighted by wildlife organisations across Queensland",
       "projection": {
         "type": "equirectangular",
         "center": {"expr": "center_to"},
-        "scale": {"expr": "zoom_level"}
+        "scale": 7800
       },
       "layer": [
         {
@@ -90,67 +52,113 @@
             "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
             "format": {"type": "topojson", "feature": "lgas"}
           },
-          "mark": {"type": "geoshape", "fill":"#ffffff", "stroke": "lightgrey"},
+          "mark": {
+            "type": "geoshape",
+            "fill": "#ffffff",
+            "stroke": "lightgrey"
+          },
           "encoding": {
             "tooltip": [
-              {"field": "properties.adminarean", "type": "nominal", "title": "LGA:"}
+              {
+                "field": "properties.adminarean",
+                "type": "nominal",
+                "title": "LGA:"
+              }
             ]
-          }      
+          }
         },
         {
           "data": {
             "url": "https://raw.githubusercontent.com/xCookiez4Lyfe/FIT3179/refs/heads/main/FIT3179%20A2/map%20data/map_projection.topojson",
             "format": {"type": "topojson", "feature": "ocean"}
           },
-          "mark": {"type": "geoshape", "fill": "#24aad6", "stroke": "darkgrey", "strokeWidth": 0.5}
+          "mark": {
+            "type": "geoshape",
+            "fill": "#24aad6",
+            "stroke": "darkgrey",
+            "strokeWidth": 0.5
+          }
         },
         {
           "transform": [
-          {"filter": {"param": "time_brush"}},
-          {
-              "window": [{"op": "rank", "as" : "rank"}],
-              "sort": [{"field": "Call Date Time", "order": "ascending"}]
-              
-          },
-          {
-              "filter": "LGA_selection=='null'?datum.rank <= 5000:datum.LGA == LGA_selection"
-          },
-          {"calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]", "as": "Status"}
+            {"filter": {"param": "time_brush"}},
+            {"window": [{"op": "rank", "as": "rank"}]},
+            {
+              "filter": "LGA_selection == 'null' ? datum.rank <= 5000 : datum.LGA == LGA_selection"
+            },
+            {
+              "calculate": "{'TRUE': 'Dead', 'FALSE': 'Alive'}[datum.Dead]",
+              "as": "Status"
+            }
           ],
           "encoding": {
             "longitude": {"field": "LNG", "type": "quantitative"},
             "latitude": {"field": "LAT", "type": "quantitative"},
             "color": {
-                "field": "Status", 
-                "type": "nominal",
-                "scale": {"range": ["#047a71", "#858585"]}
+              "field": "Adult Fate Other",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "RSPCA",
+                  "CWS",
+                  "AWH",
+                  "EVE",
+                  "HVWC",
+                  "IKPS",
+                  "MKRC",
+                  "Unknown"
+                ],
+                "range": [
+                  "#993f00",
+                  "#c67e30",
+                  "#f1bd58",
+                  "#f9e098",
+                  "#d2de8e",
+                  "#9dcbcf",
+                  "#41a6ad",
+                  "#697c7d"
+                ]
+              },
+              "legend": {"title": "Adult Fate Other"}
             },
-          "tooltip": [
-            {"field": "Koala Name", "type": "nominal", "title": "Name:"},
-            {"field": "Adult Size", "type": "nominal", "title": "Size:"},
-            {"field": "LAT", "type": "quantitative", "title": "Latitude:"},
-            {"field": "LNG", "type": "quantitative", "title": "Longitude:"},
-            {"field": "Status", "type": "nominal", "title": "Status"},
-            {"field": "yearmonth_Call Date Time_end", "type": "ordinal", "title": "Sighting date:"}
+            "opacity": {
+              "condition": {"param": "koala_fate", "value": 1},
+              "value": 0
+            },
+            "tooltip": [
+              {"field": "Koala Name", "type": "nominal", "title": "Name:"},
+              {"field": "Adult Size", "type": "nominal", "title": "Size:"},
+              {"field": "LAT", "type": "quantitative", "title": "Latitude:"},
+              {"field": "LNG", "type": "quantitative", "title": "Longitude:"},
+              {
+                "field": "Adult Fate Other",
+                "type": "nominal",
+                "title": "Adult Fate"
+              },
+              {
+                "field": "yearmonth_Call Date Time_end",
+                "type": "ordinal",
+                "title": "Sighting date:"
+              }
             ]
           },
           "layer": [
-            {"mark": {"type": "circle", "tooltip": {"content": "data"}}},
+            {
+              "mark": {"type": "circle", "size": 10},
+              "params": [
+                {
+                  "name": "koala_fate",
+                  "select": {"type": "point", "fields": ["Adult Fate Other"]},
+                  "bind": "legend"
+                }
+              ]
+            },
             {
               "transform": [
+                {"window": [{"op": "rank", "as": "first_sighting"}]},
+                {"filter": "datum.first_sighting == 1"},
                 {
-                  "aggregate": [{
-                  "op": "count",
-                  "as": "count"
-                  }],
-                  "groupby": ["yearmonth_Call Date Time_end"]
-                },
-                {
-                    "window": [{"op": "rank", "as": "ranking"}],
-                    "sort": [{"field": "count", "order": "descending"}]
-                },
-                {
-                  "calculate": "'The first koala sighting of; the selected period: ' + datum['Koala Name']",
+                  "calculate": "'The first koala sighting of; the selected period: ' + datum['Koala Name'] + ' was found by ' + datum['Adult Fate Other']",
                   "as": "text_annotation_raw"
                 },
                 {
@@ -161,41 +169,47 @@
               "mark": {
                 "type": "text",
                 "align": "right",
-                "dx": -8,
-                "dy": -8,
+                "dx": -20,
+                "dy": -10,
                 "baseline": "middle",
-                "fontStyle": "italic"
+                "fontStyle": "bold"
               },
-              "encoding": {"text": {"field": "text_annotation"}}
+              "encoding": {
+                "text": {"field": "text_annotation"},
+                "color": {"value": "black"},
+                "opacity": {
+                  "condition": {"param": "koala_fate", "value": 1},
+                  "value": 1
+                }
+              }
             }
           ]
         }
       ]
-      },
-      {
-        "width": 800,
-        "height": 60,
-        "mark": "line",
-        "title": "Use this line chart to filter out the data based on time",
-        "params": [
-          {
-            "name": "time_brush",
-            "select": {"type": "interval", "encodings": ["x"]}
-          }
-        ],
-        "encoding": {
-          "x": {
-            "field": "Call Date Time",
-            "timeUnit": "yearmonth",
-            "axis": {"title": "", "format": "%b %Y"}
-          },
-          "y": {
-            "aggregate": "count",
-            "axis": {"tickCount": 3, "grid": false},
-            "title": "Count"
-          }
+    },
+    {
+      "width": 850,
+      "height": 50,
+      "mark": "line",
+      "title": "Use this line chart to filter out the data based on time",
+      "params": [
+        {
+          "name": "time_brush",
+          "select": {"type": "interval", "encodings": ["x"]}
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "Call Date Time",
+          "timeUnit": "yearmonth",
+          "axis": {"title": "", "format": "%b %Y"}
+        },
+        "y": {
+          "aggregate": "count",
+          "axis": {"tickCount": 3, "grid": false},
+          "title": ""
         }
       }
-  
-    ]
-  }
+    }
+  ]
+}
